@@ -33,11 +33,11 @@ const getNotes = () =>
     method: 'GET',
     headers: {
       'Content-Type': 'application/json'
-    }
+    },
   });
 
 const saveNote = (note) =>
-  fetch('/api/notes', {
+  fetch('/', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
