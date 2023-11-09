@@ -35,13 +35,14 @@ router.post("/notes", async function(req, res){
     }
 });
 
-router.delete("/notes/:id", async function(req,res){
-    console.log(req.params.id);
-    const data = await fs.readFile('./db/db.json', 'utf-8');
-    const notes = JSON.parse(data);
-    let noteId = req.params.id;
-    let newId = 0;
+//I did not complete this
+// router.delete("/notes/:id", async function(req,res){
+//     console.log(req.params.id);
+//     const data = await fs.readFile('./db/db.json', 'utf-8');
+//     const notes = JSON.parse(data);
+//     let noteId = req.params.id;
+//     let newId = 0;
     
-})
+// })
 
 module.exports = router;
