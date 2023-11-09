@@ -1,29 +1,33 @@
-const fs = require("fs");
-let data = JSON.parse(fs.readFileSync('./Devlop/db/db.json'))
-const util = require("util")
-const writeFileAsync = util.promisify(fs.writeFile);
+const router = require('express').Router();
+const fs = require("fs").promises;
 
-module.exports = function(app){
-app.get("/api/notes", function(req, res){
-
-    res.JSON(data);
-
+router.get("/notes", async function(req, res){
+    try {
+        const data = await fs.readFile('./db/db.json', 'utf-8');
+        const notes = JSON.parse(data);
+        res.json(notes);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
 });
-app.get("/api/notes:id", function(req, res){
-    res.json(data[Number(req.params.id)]);
 
-});
-app.post("/api/notes", async function(req, res){
+
+
+
+router.post("/notes", async function(req, res){
     try{
         let newNote = req.body;
-
+        const data = await fs.readFile('./db/db.json', 'utf-8');
+        const notes = JSON.parse(data);
+        console.log(notes);
         let specialId = data.length.toString();
 
         console.log(specialId);
         newNote.id = specialId;
-        data.push(newNote);
-        await writeFileAsync("./db/db.json", JSON.stringify(data));
-        res.json(data)
+        notes.push(newNote);
+        await fs.writeFile("./db/db.json", JSON.stringify(notes));
+        res.json(newNote)
 
     } catch(error){
         console.log(error);
@@ -31,5 +35,13 @@ app.post("/api/notes", async function(req, res){
     }
 });
 
+router.delete("/notes/:id", async function(req,res){
+    console.log(req.params.id);
+    const data = await fs.readFile('./db/db.json', 'utf-8');
+    const notes = JSON.parse(data);
+    let noteId = req.params.id;
+    let newId = 0;
+    
+})
 
-}
+module.exports = router;
